@@ -1,6 +1,11 @@
 const initialstate = { expenses:[]}
 const appReducer =(state=initialstate,action) =>{
         switch (action.type) {
+
+          case "ADD_ALL_EXPENSES":
+            let expenses = action.payload;
+            return { expenses: expenses };
+
           case "ADD_EXPENSE":
             
             return { ...state, expenses: [...state.expenses, action.payload] };

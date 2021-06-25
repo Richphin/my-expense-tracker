@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { connect } from "react-redux";
+import { getAllExpenses } from "../actions/actions";
 import ExpenseItem from "./expenses";
 
 
+
 function Expenselist(props) {
-    
+    useEffect(()=>{
+        props.getAllExpenses();
+    },[]);
     return(
         <div>
             {props.expenses.map((expense) => (<ExpenseItem expense={expense}  />))}
@@ -19,4 +24,9 @@ function Expenselist(props) {
           expenses:state.expenses,
         }
     }
-    export default  connect(mapStateToProps,{})(Expenselist);
+
+    const mapDispatchToProps = {
+        getAllExpenses,
+      };
+
+    export default  connect(mapStateToProps,mapDispatchToProps)(Expenselist);
