@@ -3,60 +3,57 @@ import React from 'react'
 export  function getAllExpenses() {
     return(dispatch,state,{getFirestore})=>{
        const db = getFirestore();
-       db.collection('expenses')
-       .get()
-       .then((results)=>{
-           let expenses =[];
-           results.forEach((doc)=>{
-               expenses.push(doc.data());
-           });
-           dispatch({
-               type: 'ADD_ALL_EXPENSES',
-               payload: expenses,
-             });
-       })
-       .catch((err) => {
-           console.log(err);
-         });
+       db.collection('expenses').onSnapshot(
+        (results)=>{
+            let expenses =[];
+            results.forEach((doc)=>{
+                expenses.push({...doc.data(), id: doc.id});
+            });
+            dispatch({
+                type: 'ADD_ALL_EXPENSES',
+                payload: expenses,
+              });
+        },
+        (err) => {
+            console.log(err);
+          }
+       );
+       
     };
    
 }
 
 export function addExpense(newExpense) {
-    return(dispatch,state,{getFirestore})=>{
+    return async (dispatch,state,{getFirestore})=>{
         const db = getFirestore();
-        db.collection('expenses')
-        .add(newExpense)
-        .then(()=>{
-            dispatch(
-                {
-                    type: "ADD_EXPENSE",
-                    payload: newExpense,
-                }
-            );
-        })
-        .catch((err) => {
-            console.log(err);
-          });
-
-    }
-
+        try {
+           await db.collection('expenses').add(newExpense)  
+        } catch (error) {
+            console.log(error);
+        }
+    }  
 }
 
 export  function deleteExpense(id) {
-     
-    return{
-       type:"DELETE_EXPENSE",
-       payload: id
+    return async (dispatch,state,{getFirestore})=>{
+        const db = getFirestore();
+        try {
+           await db.collection('expenses').doc(id).delete();
+        } catch (error) {
+            console.log(error);
+        }
+    } 
+
+ }
+
+ export  function updateExpense(id,updatedExpense) {
+    return async (dispatch,state,{getFirestore})=>{
+        const db = getFirestore();
+        try {
+           await db.collection('expenses').doc(id).update(updatedExpense);
+        } catch (error) {
+            console.log(error);
+        }
     }
+
 }
-
-export  function updateExpense(id,updatedExpense) {
-     
-    return{
-       type:"UPDATE_EXPENSE",
-       payload:{ id:id , updatedExpenseinfo:updatedExpense}
-    }
-}
-
-
