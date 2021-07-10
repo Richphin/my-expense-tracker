@@ -21,7 +21,7 @@ function Expenselist(props) {
     }
     function mapStateToProps(state) {
         return {
-          expenses:state.expenses,
+          expenses:state.userState.expenses,
         }
     }
 

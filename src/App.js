@@ -1,6 +1,8 @@
 
-import Expenseform from './components/expenseForm';
-import Expenselist from './components/Expenselist';
+import { BrowserRouter,Switch,Route } from "react-router-dom";
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 
 function App() {
@@ -9,24 +11,15 @@ function App() {
 
 
   return (
-    <div className="container ">
-      <div className="">
-        <div className="col-md-4 col-sm-12 formcontainer">
-          <Expenseform />
-        </div>
-        <div className="col-md-8 col-sm-12 ">
-          <h2 className="users text-center">Expenses</h2>
-          <div className="row">
-          <div className="col-md-3 col-sm-3 text-center"><h4>category</h4></div>
-          <div className="col-md-3 col-sm-3 text-center"><h4>Item/Service</h4></div>
-          <div className="col-md-2 col-sm-2 text-center"><h4>Amount</h4></div>
-          <div className="col-md-2 col-sm-2 text-center"><h4>Date</h4></div>
-          <div className="col-md-2 col-sm-2 text-center"><h4>Edit/Delete</h4></div>
-          </div>
-          <Expenselist/>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+            
+            <Switch>
+                <Route exact path="/" component={Dashboard}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/signup" component={Signup}/>
+                
+            </Switch>
+        </BrowserRouter>
   );
 }
 
