@@ -8,7 +8,7 @@ import firebase from "../firebase/config"
 
 const Allreducers =combineReducers({
     userState:appReducer,
-    firebasestate: firebaseReducer,
+    firebaseState: firebaseReducer,
 })
 
 
